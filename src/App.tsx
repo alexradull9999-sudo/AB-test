@@ -1,107 +1,82 @@
-import React, { useState, FormEvent, useEffect } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, Phone, MapPin, Check, Plus, Minus, Send, ArrowRight, Instagram } from 'lucide-react';
+import { Menu, X, Plus, ArrowRight, ArrowUpRight, Send, Phone, MapPin, Check, Minus } from 'lucide-react';
 
 const IMAGES = {
   hero: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=2000",
   services: [
     {
-      title: "Дизайн-проект",
-      desc: "Индивидуальный проект с 3D-визуализацией",
+      title: "ДИЗАЙН - ПРОЕКТЫ",
       img: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=800"
     },
     {
-      title: "Ремонт под ключ",
-      desc: "Все этапы от демонтажа до клининга",
+      title: "РЕМОНТ",
       img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=800"
     },
     {
-      title: "Комплектация",
-      desc: "Подбор мебели, материалов, техники",
+      title: "КОМПЛЕКТАЦИЯ",
       img: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=800"
-    },
-    {
-      title: "Авторский надзор",
-      desc: "Контроль реализации проекта",
-      img: "https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&q=80&w=800"
     }
   ],
-  approach: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000",
-  teamGroup: "https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=1200",
-  teamMembers: [
-    { name: "Анна", role: "Главный дизайнер", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400" },
-    { name: "Сергей", role: "Руководитель проектов", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400" },
-    { name: "Елена", role: "Арт-директор", img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=400" },
-    { name: "Михаил", role: "Инженер-архитектор", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400" },
-    { name: "Ольга", role: "Комплектатор", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400" }
+  approachBg: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2000",
+  aboutImg: "https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=1200",
+  avatars: [
+    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150",
+    "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=150",
+    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=150",
+    "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=150",
+    "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150"
   ],
   portfolio: [
-    { title: "ЖК Knightsbridge", area: "3-комн, 180 м²", img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=800" },
-    { title: "Пентхаус Москва-Сити", area: "250 м²", img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=800" },
-    { title: "ЖК Садовые кварталы", area: "120 м²", img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800" },
-    { title: "Таунхаус Рублёвка", area: "400 м²", img: "https://images.unsplash.com/photo-1600566753086-00f18efc2291?auto=format&fit=crop&q=80&w=800" },
-    { title: "Апартаменты Остоженка", area: "90 м²", img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=800" },
-    { title: "Загородный дом", area: "600 м²", img: "https://images.unsplash.com/photo-1600607687644-aac4c15cecb1?auto=format&fit=crop&q=80&w=800" }
+    { title: "ЖК Золотой", area: "180 м²", img: "zolotoy_1.jpg" },
+    { title: "ЖК Prime Park", area: "250 м²", img: "prime_park_1.jpg" },
+    { title: "ЖК D1", area: "120 м²", img: "d1_1.png" },
+    { title: "Усадьба", area: "400 м²", img: "usadba1.jpg" },
+    { title: "Апартаменты Остоженка", area: "90 м²", img: "ostozhenka_1.png" },
+    { title: "ЖК Headliner", area: "150 м²", img: "headliner_1.png" }
   ]
 };
 
 const PLANS = [
-  {
-    name: "ЭСКИЗНЫЙ",
-    price: "от 3 500 ₽/м²",
-    features: ["Планировочные решения", "Концепция (коллажи)", "ТЗ для строителей"],
-  },
-  {
-    name: "РАБОЧИЙ",
-    price: "от 5 500 ₽/м²",
-    features: ["3D-визуализации", "Рабочие чертежи опытной группы", "Спецификации материалов"],
-  },
-  {
-    name: "АВТОРСКИЙ НАДЗОР",
-    price: "85 000 ₽/мес",
-    features: ["Регулярные выезды", "Контроль реализации", "Еженедельные фотоотчёты"],
-  },
-  {
-    name: "ПОД КЛЮЧ",
-    price: "от 350 000 ₽/м²",
-    features: ["Все стадии проектирования", "Ремонтно-отделочные работы", "Полная комплектация"],
-  }
+  { name: "ЭСКИЗНЫЙ", price: "от 3 500 ₽/м²", features: ["Планировочные решения", "Концепция (коллажи)", "ТЗ для строителей"] },
+  { name: "РАБОЧИЙ", price: "от 5 500 ₽/м²", features: ["3D-визуализации", "Рабочие чертежи опытной группы", "Спецификации материалов"] },
+  { name: "АВТОРСКИЙ НАДЗОР", price: "85 000 ₽/мес", features: ["Регулярные выезды", "Контроль реализации", "Еженедельные фотоотчёты"] },
+  { name: "ПОД КЛЮЧ", price: "от 350 000 ₽/м²", features: ["Все стадии проектирования", "Ремонтно-отделочные работы", "Полная комплектация"] }
 ];
 
 const FAQS = [
-  { q: "Сколько времени занимает ремонт?", a: "В среднем от 3 до 6 месяцев в зависимости от площади объекта, сложности проекта и выбранных материалов. График работ мы строго фиксируем в договоре." },
-  { q: "Можно заказать только дизайн-проект?", a: "Да, мы работаем по отдельным услугам. Вы можете заказать только дизайн-проект, а ремонт реализовать своими силами, либо заказать комплексный подход." },
-  { q: "Что входит в авторский надзор?", a: "Регулярные выезды на объект, контроль соответствия работ проекту, внесение корректировок в чертежи при необходимости, подбор аналогов материалов и еженедельные фотоотчёты для вас." },
-  { q: "Какая гарантия?", a: "Мы предоставляем гарантию 5 лет на все виды выполненных нами ремонтно-отделочных работ. Это условие официально закреплено в нашем договоре." },
-  { q: "Работаете ли за пределами Москвы?", a: "Да, мы выезжаем в Московскую область, а также рассматриваем масштабные проекты в других регионах по индивидуальной договоренности." }
+  { q: "СКОЛЬКО ВРЕМЕНИ ЗАНИМАЕТ РЕМОНТ?", a: "В среднем от 3 до 6 месяцев в зависимости от площади объекта, сложности проекта и выбранных материалов. График работ мы строго фиксируем в договоре." },
+  { q: "МОЖНО ЗАКАЗАТЬ ТОЛЬКО ДИЗАЙН-ПРОЕКТ?", a: "Да, мы работаем по отдельным услугам. Вы можете заказать только дизайн-проект, а ремонт реализовать своими силами, либо заказать комплексный подход." },
+  { q: "ЧТО ВХОДИТ В АВТОРСКИЙ НАДЗОР?", a: "Регулярные выезды на объект, контроль соответствия работ проекту, внесение корректировок в чертежи при необходимости, подбор аналогов материалов и еженедельные фотоотчёты для вас." },
+  { q: "КАКАЯ ГАРАНТИЯ?", a: "Мы предоставляем гарантию 5 лет на все виды выполненных нами ремонтно-отделочных работ. Это условие официально закреплено в нашем договоре." }
 ];
 
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [midFormStatus, setMidFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const [finalFormStatus, setFinalFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   const scrollTo = (id: string) => {
     setIsMobileMenuOpen(false);
     const element = document.getElementById(id);
     if (element) {
-      const top = element.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top, behavior: 'smooth' });
+      window.scrollTo({ top: element.offsetTop, behavior: 'smooth' });
     }
   };
 
-  const handleMidSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>, sourceName: string) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     if (formData.get('honeypot')) return;
     
-    setMidFormStatus('submitting');
+    setFormStatus('submitting');
     try {
       const payload = {
         name: formData.get('name'),
         phone: formData.get('phone'),
         comment: formData.get('comment'),
-        source: "Форма середины",
+        day: formData.get('preferredDay'),
+        time: formData.get('preferredTime'),
+        source: sourceName,
         url: window.location.href
       };
       await fetch('https://hook.eu1.make.com/puy2n5ltucpawv56c9mnocuyxt6txrdc', {
@@ -109,67 +84,39 @@ export default function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-      setMidFormStatus('success');
+      setFormStatus('success');
       e.currentTarget.reset();
+      setTimeout(() => setFormStatus('idle'), 5000);
     } catch {
-      setMidFormStatus('error');
-    }
-  };
-
-  const handleFinalSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    if (formData.get('honeypot')) return;
-    
-    setFinalFormStatus('submitting');
-    try {
-      const payload = {
-        name: formData.get('name'),
-        phone: formData.get('phone'),
-        preferredDay: formData.get('preferredDay'),
-        preferredTime: formData.get('preferredTime'),
-        comment: formData.get('comment'),
-        source: "Финальная форма",
-        url: window.location.href
-      };
-      await fetch('https://hook.eu1.make.com/puy2n5ltucpawv56c9mnocuyxt6txrdc', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      setFinalFormStatus('success');
-      e.currentTarget.reset();
-    } catch {
-      setFinalFormStatus('error');
+      setFormStatus('error');
+      setTimeout(() => setFormStatus('idle'), 5000);
     }
   };
 
   return (
-    <div className="font-sans text-[#1a1a1a] bg-[#FFFFFF] w-full min-h-screen overflow-x-hidden selection:bg-[#B8956A] selection:text-white">
+    <div className="font-sans text-[#2B2B2B] bg-[#F5F3ED] w-full min-h-screen overflow-x-hidden selection:bg-[#B8956A] selection:text-white">
       
       {/* HEADER */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm transition-all">
-        <div className="w-full max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
-          <div className="text-2xl font-black tracking-widest uppercase cursor-pointer" onClick={() => window.scrollTo(0, 0)}>
-            МЕЧТЫ<span className="text-[#B8956A]">.</span>
+      <header className="absolute top-0 left-0 right-0 z-50 pt-6 px-6 md:px-12">
+        <div className="flex items-center justify-between">
+          <div className="w-12 h-12 bg-white rounded-[14px] flex items-center justify-center text-[#2B2B2B] font-bold text-xl cursor-pointer" onClick={() => window.scrollTo(0,0)}>
+            М
           </div>
           
-          <nav className="hidden lg:flex items-center gap-8 font-medium text-sm">
-            <button onClick={() => scrollTo('services')} className="hover:text-[#B8956A] transition-colors">Услуги</button>
-            <button onClick={() => scrollTo('about')} className="hover:text-[#B8956A] transition-colors">О нас</button>
-            <button onClick={() => scrollTo('portfolio')} className="hover:text-[#B8956A] transition-colors">Проекты</button>
-            <button onClick={() => scrollTo('pricing')} className="hover:text-[#B8956A] transition-colors">Тарифы</button>
+          <nav className="hidden lg:flex items-center gap-10 text-white text-[13px] font-medium tracking-widest uppercase">
+            <button onClick={() => scrollTo('services')} className="hover:text-[#B8956A] transition-colors">УСЛУГИ</button>
+            <button onClick={() => scrollTo('about')} className="hover:text-[#B8956A] transition-colors">О НАС</button>
+            <button onClick={() => scrollTo('portfolio')} className="hover:text-[#B8956A] transition-colors">НАШИ ПРОЕКТЫ</button>
+            <button onClick={() => scrollTo('pricing')} className="hover:text-[#B8956A] transition-colors">ТАРИФЫ</button>
             <button onClick={() => scrollTo('faq')} className="hover:text-[#B8956A] transition-colors">FAQ</button>
           </nav>
           
-          <div className="hidden lg:block">
-            <button onClick={() => scrollTo('contact-mid')} className="bg-[#B8956A] hover:bg-[#a6865b] text-white px-6 py-3 font-semibold text-sm transition-colors duration-300">
-              Обсудить проект
-            </button>
-          </div>
+          <button onClick={() => scrollTo('contact')} className="hidden lg:block text-white text-[13px] font-medium tracking-widest uppercase hover:text-[#B8956A] transition-colors">
+            КОНТАКТЫ
+          </button>
 
-          <button className="lg:hidden p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          <button className="lg:hidden text-white" onClick={() => setIsMobileMenuOpen(true)}>
+            <Menu size={28} />
           </button>
         </div>
       </header>
@@ -177,460 +124,343 @@ export default function App() {
       {/* MOBILE MENU */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 bg-white pt-24 px-6 flex flex-col gap-6 lg:hidden min-h-screen"
-          >
-            <nav className="flex flex-col gap-6 text-xl font-medium">
-              <button onClick={() => scrollTo('services')} className="text-left py-2 border-b border-gray-100 uppercase tracking-wide">Услуги</button>
-              <button onClick={() => scrollTo('about')} className="text-left py-2 border-b border-gray-100 uppercase tracking-wide">О нас</button>
-              <button onClick={() => scrollTo('portfolio')} className="text-left py-2 border-b border-gray-100 uppercase tracking-wide">Проекты</button>
-              <button onClick={() => scrollTo('pricing')} className="text-left py-2 border-b border-gray-100 uppercase tracking-wide">Тарифы</button>
-              <button onClick={() => scrollTo('faq')} className="text-left py-2 border-b border-gray-100 uppercase tracking-wide">FAQ</button>
-            </nav>
-            <div className="mt-8 flex flex-col gap-4">
-              <a href="tel:+79055164466" className="text-lg font-bold text-[#1a1a1a] flex items-center gap-2">
-                <Phone size={20} className="text-[#B8956A]" /> +7 (905) 516-44-66
-              </a>
-              <button onClick={() => scrollTo('contact-mid')} className="bg-[#B8956A] w-full text-white py-4 font-bold text-center mt-4 uppercase tracking-wide">
-                Обсудить проект
-              </button>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-[#F5F3ED] p-6 flex flex-col">
+            <div className="flex justify-between items-center mb-16">
+              <div className="w-12 h-12 bg-[#2B2B2B] text-white rounded-[14px] flex items-center justify-center font-bold text-xl">М</div>
+              <button onClick={() => setIsMobileMenuOpen(false)}><X size={32} /></button>
             </div>
+            <nav className="flex flex-col gap-8 text-2xl font-medium tracking-wide uppercase">
+              <button onClick={() => scrollTo('services')} className="text-left w-full border-b border-gray-300 pb-4">УСЛУГИ</button>
+              <button onClick={() => scrollTo('about')} className="text-left w-full border-b border-gray-300 pb-4">О НАС</button>
+              <button onClick={() => scrollTo('portfolio')} className="text-left w-full border-b border-gray-300 pb-4">НАШИ ПРОЕКТЫ</button>
+              <button onClick={() => scrollTo('pricing')} className="text-left w-full border-b border-gray-300 pb-4">ТАРИФЫ</button>
+              <button onClick={() => scrollTo('contact')} className="text-left w-full border-b border-gray-300 pb-4 text-[#B8956A]">ОБСУДИТЬ ПРОЕКТ</button>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* HERO */}
-      <section className="relative w-full h-screen min-h-[600px] flex items-center justify-center pt-20 overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-black">
-          <img src={IMAGES.hero} alt="Интерьер премиум" className="w-full h-full object-cover opacity-60" />
+      <section className="relative w-full h-screen min-h-[700px] flex items-center justify-center text-white overflow-hidden pb-12">
+        <div className="absolute inset-0 bg-black z-0">
+          <img src={IMAGES.hero} alt="Интерьер" className="w-full h-full object-cover opacity-40" />
         </div>
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 text-white flex flex-col items-center text-center mt-12 md:mt-0">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="inline-block border border-white/30 backdrop-blur-md px-4 py-1 uppercase text-xs tracking-widest mb-8">
-            Комплексный подход
-          </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-5xl">
-            Дизайн интерьеров и ремонт под ключ в Москве
+        <div className="relative z-10 text-center px-4 w-full max-w-5xl">
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-6xl md:text-8xl lg:text-[140px] font-medium tracking-tighter lowercase mb-6">
+            мечты<span className="text-[#B8956A] text-4xl lg:text-7xl align-top">®</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} className="text-lg md:text-xl text-white/90 max-w-3xl mb-12" style={{ textWrap: 'balance' } as any}>
-            Создаём пространства мечты — от концепции до финального клининга. Премиальное качество, прозрачные сроки, гарантия 5 лет.
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="text-sm md:text-lg lg:text-xl font-light tracking-wide max-w-2xl mx-auto uppercase">
+            РЕМОНТ КВАРТИР И ДИЗАЙН ИНТЕРЬЕРА В МОСКВЕ И МОСКОВСКОЙ ОБЛАСТИ ПОД КЛЮЧ
           </motion.p>
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <button onClick={() => scrollTo('portfolio')} className="bg-[#B8956A] hover:bg-[#a6865b] text-white px-8 py-4 font-semibold text-sm transition-colors duration-300 w-full sm:w-auto uppercase tracking-wide">
-              Смотреть проекты
-            </button>
-            <button onClick={() => scrollTo('contact-mid')} className="border border-white hover:bg-white hover:text-[#1a1a1a] text-white px-8 py-4 font-semibold text-sm transition-colors duration-300 w-full sm:w-auto uppercase tracking-wide">
-              Рассчитать стоимость
-            </button>
-          </motion.div>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 1 }} className="absolute bottom-12 flex gap-6 text-white/70">
-            <a href="#" className="hover:text-white transition-colors uppercase tracking-widest text-sm flex items-center gap-2"><Send size={16}/> Telegram</a>
-            <a href="#" className="hover:text-white transition-colors uppercase tracking-widest text-sm flex items-center gap-2">VK</a>
-          </motion.div>
         </div>
       </section>
 
-      {/* SERVICES */}
-      <section id="services" className="py-24 md:py-32 w-full max-w-7xl mx-auto px-4 md:px-8 bg-white">
-        <div className="flex flex-col items-center text-center mb-16">
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 max-w-3xl">
-            Все услуги для создания идеального пространства
-          </motion.h2>
+      {/* SERVICES INTRO */}
+      <section id="services" className="pt-32 pb-16 px-6 md:px-12 w-full max-w-[1600px] mx-auto rounded-t-[40px] -mt-[40px] bg-[#F5F3ED] relative z-20">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
+          <div className="lg:w-1/4">
+            <div className="text-sm tracking-widest text-gray-500 uppercase flex items-center gap-3">
+              <span>[</span> комплексный подход <span>]</span>
+            </div>
+          </div>
+          <div className="lg:w-3/4">
+            <h2 className="text-3xl md:text-5xl lg:text-[42px] font-medium leading-[1.1] uppercase mb-8">
+              ВСЕ УСЛУГИ ДЛЯ СОЗДАНИЯ ИДЕАЛЬНОГО ПРОСТРАНСТВА: <span className="text-gray-400">ОТ ПРОЕКТА ДО РЕМОНТА И ОСНАЩЕНИЯ ПОД КЛЮЧ</span>
+            </h2>
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl leading-relaxed font-light">
+              Мы используем современные технологии, тщательно прорабатываем каждую деталь и предлагаем решения, которые сочетают функциональность, стиль и надежность, чтобы превзойти ваши ожидания. Выполним ремонт квартир в Москве и МО с нуля, создадим продуманный дизайн интерьера под ваш стиль и бюджет.
+            </p>
+          </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {IMAGES.services.map((service, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="group cursor-pointer">
-              <div className="w-full aspect-[4/5] bg-gray-100 mb-6 overflow-hidden transform group-hover:-translate-y-2 group-hover:shadow-xl transition-all duration-300">
-                <img src={service.img} alt={service.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+      </section>
+
+      {/* SERVICES CARDS */}
+      <section className="pb-32 px-6 md:px-12 w-full max-w-[1600px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16">
+          {IMAGES.services.map((s, i) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ delay: i * 0.1 }} className="relative group overflow-hidden rounded-[30px] lg:rounded-[40px] aspect-[4/5] bg-gray-200 cursor-pointer">
+              <img src={s.img} alt={s.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#2B2B2B]/90 via-[#2B2B2B]/20 to-transparent flex flex-col justify-end p-8">
+                <div className="flex justify-between items-end">
+                  <h3 className="text-white text-2xl lg:text-3xl font-medium tracking-wide">{s.title}</h3>
+                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#2B2B2B] shrink-0 group-hover:bg-[#B8956A] group-hover:text-white transition-colors">
+                    <Plus size={24} strokeWidth={1.5} />
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-              <p className="text-gray-500 leading-relaxed">{service.desc}</p>
             </motion.div>
           ))}
         </div>
-        <div className="mt-16 text-center">
-          <button onClick={() => scrollTo('contact-mid')} className="inline-flex items-center gap-2 text-[#B8956A] font-bold hover:gap-4 transition-all duration-300 uppercase tracking-wide">
-            Оставить заявку на подбор услуг <ArrowRight size={20} />
+        <div className="flex justify-center">
+          <button className="flex items-center gap-4 text-sm font-medium tracking-widest uppercase hover:text-[#B8956A] transition-colors group">
+            СМОТРЕТЬ ВСЕ
+            <div className="w-12 h-12 bg-[#2B2B2B] text-white rounded-full flex items-center justify-center group-hover:bg-[#B8956A] transition-colors">
+              <ArrowRight size={20} strokeWidth={1.5} />
+            </div>
           </button>
         </div>
       </section>
 
       {/* APPROACH */}
-      <section className="py-24 md:py-32 bg-[#F8F8F8] w-full">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col lg:flex-row gap-16 items-center">
-          <div className="w-full lg:w-1/2">
-            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl lg:text-5xl font-bold mb-12">
-              Наш подход к дизайнерскому ремонту
-            </motion.h2>
-            <div className="space-y-8">
-              {[
-                { title: "Утверждаем понятную смету", desc: "Фиксированный бюджет до старта. Никаких скрытых платежей в процессе реализации." },
-                { title: "Разрабатываем проект под ваш бюджет", desc: "Подбираем оптимальные чистовые материалы без переплат, строго в рамках выделенной суммы." },
-                { title: "Все специалисты работают в связке", desc: "В вашем распоряжении команда: дизайнер, проектный менеджер (ПМ), инженеры и мастера." },
-                { title: "Еженедельные фото и видеоотчёты", desc: "Вы всегда в курсе процесса. Прозрачная коммуникация в рабочем чате." },
-                { title: "Гарантия на ремонт 5 лет", desc: "Всё официально и закреплено в договоре. Уверены в качестве на 100%." }
-              ].map((item, i) => (
-                <motion.div key={i} initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="flex gap-6 items-start">
-                  <div className="text-5xl text-[#B8956A] font-light leading-none shrink-0 w-10 mt-1">{i + 1}</div>
-                  <div>
-                    <h4 className="text-xl font-bold mb-2">{item.title}</h4>
-                    <p className="text-gray-500 leading-relaxed">{item.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+      <section className="w-full bg-[#2B2B2B] relative rounded-[40px] overflow-hidden lg:mx-auto max-w-[1800px]">
+        <div className="absolute inset-0">
+          <img src={IMAGES.approachBg} alt="Фон" className="w-full h-[60%] object-cover opacity-60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#2B2B2B] h-[60%]"></div>
+        </div>
+        
+        <div className="relative z-10 pt-32 pb-24 px-6 md:px-12 w-full max-w-[1600px] mx-auto">
+          <h2 className="text-white text-3xl md:text-5xl lg:text-[56px] font-medium leading-[1.1] mb-24 max-w-4xl uppercase">
+            НАШ ПОДХОД К ДИЗАЙНЕРСКОМУ РЕМОНТУ КВАРТИР
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { title: "УТВЕРЖДАЕМ ПОНЯТНУЮ СМЕТУ", desc: "Работы начинаются только после согласования сметы и заключения договора. Вы заранее знаете точный бюджет ремонта." },
+              { title: "РАЗРАБАТЫВАЕМ ПРОЕКТ С УЧЕТОМ БЮДЖЕТА", desc: "Каждый дизайн-проект интерьера основывается на подборе оптимальных материалов и решений." },
+              { title: "ВСЕ СПЕЦИАЛИСТЫ РАБОТАЮТ В СВЯЗКЕ", desc: "Над вашим проектом работает команда: дизайнер, ПМ, инженеры. Это гарантирует точность реализации." }
+            ].map((step, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="bg-[#F5F3ED] rounded-[30px] lg:rounded-[40px] p-8 lg:p-12 flex flex-col h-full">
+                <h3 className="text-2xl lg:text-3xl font-medium mb-8 uppercase leading-[1.2]">{step.title}</h3>
+                <p className="text-gray-600 font-light leading-relaxed mb-16">{step.desc}</p>
+                <div className="mt-auto flex justify-end text-sm text-gray-400 font-medium tracking-wider">
+                  0{i + 1}
+                </div>
+              </motion.div>
+            ))}
           </div>
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="w-full lg:w-1/2">
-            <img src={IMAGES.approach} alt="Процесс работы" className="w-full h-full object-cover aspect-square shadow-2xl" loading="lazy" />
-          </motion.div>
         </div>
       </section>
 
       {/* ABOUT */}
-      <section id="about" className="py-24 md:py-32 bg-white w-full">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex flex-col items-center text-center">
-            <span className="inline-block border border-gray-200 px-4 py-1 uppercase text-xs tracking-widest mb-6 font-semibold">О нас</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 max-w-4xl leading-tight">
-              МЕЧТЫ — это не «сделали-сдали». Это целая жизнь, которую мы проживаем с заказчиком.
-            </h2>
-            <p className="text-lg text-gray-500 max-w-3xl mb-16 leading-relaxed">
-              Студия «Все начинается с мечты» — место, где мечты о комфортном жилье воплощаются в реальность. Мы гордимся командой профессионалов с опытом от 10 лет, которая реализует объекты премиум класса любой сложности.
-            </p>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="w-full mb-16">
-            <img src={IMAGES.teamGroup} alt="Команда МЕЧТЫ" className="w-full aspect-[21/9] object-cover" loading="lazy" />
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center mb-20 divide-y md:divide-y-0 md:divide-x divide-gray-100">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="py-8 md:py-0">
-              <div className="text-5xl font-bold text-[#B8956A] mb-2">90%</div>
-              <div className="text-gray-500 font-medium uppercase tracking-wide text-sm">Клиентов по рекомендации</div>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="py-8 md:py-0">
-              <div className="text-5xl font-bold text-[#B8956A] mb-2">200+</div>
-              <div className="text-gray-500 font-medium uppercase tracking-wide text-sm">Успешных проектов</div>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="py-8 md:py-0">
-              <div className="text-5xl font-bold text-[#B8956A] mb-2">2015</div>
-              <div className="text-gray-500 font-medium uppercase tracking-wide text-sm">Год основания студии</div>
-            </motion.div>
+      <section id="about" className="py-32 px-6 md:px-12 w-full max-w-[1600px] mx-auto">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 mb-32">
+          <div className="lg:w-1/4">
+            <div className="text-sm tracking-widest text-[#B8956A] uppercase flex items-center gap-3">
+              <span className="text-gray-500">[</span> о нас <span className="text-gray-500">]</span>
+            </div>
           </div>
+          <div className="lg:w-3/4">
+            <h2 className="text-3xl md:text-5xl lg:text-[46px] font-medium leading-[1.2] uppercase mb-12 max-w-4xl">
+              МЕЧТЫ — ЭТО НЕ «СДЕЛАЛИ-СДАЛИ». ЭТО ЦЕЛАЯ ЖИЗНЬ, КОТОРУЮ МЫ ПРОЖИВАЕМ С ЗАКАЗЧИКОМ.
+            </h2>
+            <div className="flex flex-col lg:flex-row gap-12">
+              <div className="lg:w-1/2">
+                <p className="text-lg text-gray-600 font-light leading-relaxed max-w-lg mb-12">
+                  Мы — команда высококвалифицированных профессионалов с многолетним опытом, готовая взять на себя ремонт и дизайн домов и квартир под ключ в Москве и МО.
+                </p>
+              </div>
+              <div className="lg:w-1/2">
+                <img src={IMAGES.aboutImg} alt="Команда" className="w-full rounded-[40px] lg:rounded-tl-[80px] lg:rounded-br-[80px] object-cover aspect-[4/3]" />
+              </div>
+            </div>
+          </div>
+        </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
-            {IMAGES.teamMembers.map((member, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="text-center group">
-                <div className="w-full aspect-square mb-4 overflow-hidden bg-gray-100">
-                  <img src={member.img} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" loading="lazy" />
-                </div>
-                <h4 className="font-bold text-lg mb-1">{member.name}</h4>
-                <p className="text-sm text-gray-500 uppercase tracking-wider">{member.role}</p>
-              </motion.div>
-            ))}
+        {/* STATS */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-24 gap-y-16 border-t border-[#E5E0D8] pt-16">
+          <div className="border-b md:border-b-0 md:border-r border-[#E5E0D8] pb-16 md:pb-0 md:pr-24">
+            <div className="text-[100px] md:text-[140px] leading-none font-light tracking-tighter mb-4 text-[#2B2B2B]">
+              90<span className="text-6xl">%</span>
+            </div>
+            <p className="text-gray-600 font-light leading-relaxed max-w-sm">
+              Наших клиентов приходят по рекомендации. Строгое соблюдение сроков и безупречное качество.
+            </p>
+          </div>
+          <div>
+            <div className="text-[100px] md:text-[140px] leading-none font-light tracking-tighter mb-4 text-[#2B2B2B]">
+              250<span className="text-4xl tracking-widest font-medium uppercase ml-4 text-gray-500 align-middle">+ ПРОЕКТОВ</span>
+            </div>
+            <p className="text-gray-600 font-light leading-relaxed max-w-sm">
+              Квартиры, пентхаусы и таунхаусы. Доверяя нам свой ремонт, вы выбираете надежность.
+            </p>
+          </div>
+          <div className="border-t border-[#E5E0D8] pt-16">
+            <div className="text-[100px] md:text-[140px] leading-none font-light tracking-tighter mb-4 text-[#2B2B2B] flex items-end">
+              <span className="text-4xl mb-4 mr-2 text-gray-400">с</span>2015
+            </div>
+            <p className="text-gray-600 font-light leading-relaxed max-w-sm">
+              Создаём эксклюзивные интерьеры и сопровождаем каждый проект на всех этапах до финального клининга.
+            </p>
+          </div>
+          <div className="border-t border-[#E5E0D8] pt-16 flex flex-col justify-center">
+            <h3 className="text-2xl lg:text-3xl font-medium mb-10 uppercase max-w-sm leading-[1.2]">
+              УЗНАЙ БОЛЬШЕ О НАШЕЙ КОМАНДЕ
+            </h3>
+            <div className="flex items-center justify-between max-w-sm">
+              <div className="flex -space-x-4">
+                {IMAGES.avatars.map((avatar, i) => (
+                  <img key={i} src={avatar} alt="Команда" className="w-[72px] h-[72px] rounded-full border-2 border-[#F5F3ED] object-cover grayscale" />
+                ))}
+              </div>
+              <div className="w-[72px] h-[72px] rounded-full bg-[#2B2B2B] text-white flex items-center justify-center cursor-pointer hover:bg-[#B8956A] transition-colors">
+                <ArrowRight size={24} strokeWidth={1.5} />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* MID FORM #1 */}
-      <section id="contact-mid" className="py-24 bg-[#1a1a1a] text-white w-full">
-        <div className="max-w-5xl mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16">
-          <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Обсудим ваш проект?</h2>
-            <p className="text-gray-400 text-lg mb-12 max-w-md">
-              Оставьте заявку — мы ответим на вопросы, расскажем о процессах и дадим предварительную оценку стоимости и сроков.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="https://t.me/your_tg" className="flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-colors px-6 py-3 rounded-full font-medium">
-                <Send size={18} /> Telegram
-              </a>
-              <a href="https://wa.me/79055164466" className="flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-colors px-6 py-3 rounded-full font-medium">
-                <Phone size={18} /> WhatsApp
-              </a>
-              <a href="tel:+79055164466" className="flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-colors px-6 py-3 rounded-full font-medium">
-                +7 (905) 516-44-66
-              </a>
+      {/* PORTFOLIO (Adapted to style) */}
+      <section id="portfolio" className="py-32 px-6 md:px-12 w-full max-w-[1600px] mx-auto">
+        <div className="flex flex-col lg:flex-row justify-between items-end mb-16 gap-8">
+          <div>
+            <div className="text-sm tracking-widest text-[#B8956A] uppercase flex items-center gap-3 mb-6">
+              <span className="text-gray-500">[</span> проекты <span className="text-gray-500">]</span>
             </div>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            {midFormStatus === 'success' ? (
-              <div className="h-full flex items-center justify-center p-8 bg-white/5 border border-white/10 rounded-xl text-center">
-                <div>
-                  <div className="w-16 h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6 text-white">
-                    <Check size={32} />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-2">Спасибо за заявку!</h3>
-                  <p className="text-gray-400">Мы свяжемся с вами в течение 15 минут.</p>
+            <h2 className="text-3xl md:text-5xl lg:text-[56px] font-medium leading-[1.1] uppercase">НАШИ РАБОТЫ</h2>
+          </div>
+          <button className="w-16 h-16 rounded-full border border-[#E5E0D8] flex items-center justify-center hover:bg-[#B8956A] hover:text-white hover:border-[#B8956A] transition-all">
+            <ArrowUpRight size={28} strokeWidth={1}/>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {IMAGES.portfolio.map((p, i) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="group cursor-pointer">
+              <div className="overflow-hidden rounded-[30px] lg:rounded-[40px] aspect-[4/3] bg-gray-200 mb-6">
+                <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+              </div>
+              <div className="px-4">
+                <div className="flex justify-between items-center border-b border-[#E5E0D8] pb-6 group-hover:border-[#B8956A] transition-colors">
+                  <h4 className="text-2xl font-medium uppercase">{p.title}</h4>
+                  <span className="text-gray-500 text-sm tracking-widest uppercase">{p.area}</span>
                 </div>
               </div>
-            ) : (
-              <form onSubmit={handleMidSubmit} className="flex flex-col gap-4">
-                <input type="text" name="honeypot" className="hidden" tabIndex={-1} autoComplete="off" />
-                
-                <input required type="text" name="name" placeholder="Ваше имя" className="bg-[#2a2a2a] border border-transparent focus:border-[#B8956A] focus:bg-[#333] px-6 py-4 text-white placeholder-gray-500 outline-none transition-all w-full leading-relaxed" />
-                
-                <input required type="tel" name="phone" placeholder="Номер телефона" className="bg-[#2a2a2a] border border-transparent focus:border-[#B8956A] focus:bg-[#333] px-6 py-4 text-white placeholder-gray-500 outline-none transition-all w-full leading-relaxed" />
-                
-                <textarea name="comment" placeholder="Какая стоит задача? (необязательно)" rows={3} className="bg-[#2a2a2a] border border-transparent focus:border-[#B8956A] focus:bg-[#333] px-6 py-4 text-white placeholder-gray-500 outline-none transition-all w-full resize-none leading-relaxed" />
-                
-                <div className="mt-4 flex items-start gap-3">
-                  <input required type="checkbox" id="policy1" className="mt-1.5 w-4 h-4 accent-[#B8956A]" />
-                  <label htmlFor="policy1" className="text-sm text-gray-500">
-                    Согласен(на) на обработку персональных данных
-                  </label>
-                </div>
-                
-                <button type="submit" disabled={midFormStatus === 'submitting'} className="bg-[#B8956A] hover:bg-[#a6865b] disabled:bg-[#a6865b]/50 text-white px-8 py-5 font-bold uppercase tracking-widest mt-4 transition-colors w-full">
-                  {midFormStatus === 'submitting' ? 'Отправка...' : 'Оставить заявку'}
-                </button>
-                {midFormStatus === 'error' && <p className="text-red-400 text-sm mt-2">Произошла ошибка при отправке. Пожалуйста, попробуйте позже.</p>}
-              </form>
-            )}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* PORTFOLIO */}
-      <section id="portfolio" className="py-24 md:py-32 bg-[#F8F8F8] w-full">
-        <div className="max-w-[1400px] mx-auto px-4 md:px-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex flex-col items-center text-center mb-16">
-            <span className="inline-block border border-gray-300 px-4 py-1 uppercase text-xs tracking-widest mb-6 font-semibold">Наши проекты</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">Наши воплощённые проекты</h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {IMAGES.portfolio.map((p, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="relative group overflow-hidden cursor-pointer bg-gray-200">
-                <div className="aspect-[4/3] w-full">
-                  <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8 text-white">
-                  <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 className="text-2xl font-bold mb-2">{p.title}</h3>
-                    <p className="text-white/80 uppercase tracking-widest text-sm font-medium">{p.area}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          
-          <div className="mt-16 text-center">
-            <button className="border border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white px-10 py-4 font-semibold text-sm transition-colors duration-300 uppercase tracking-widest inline-block">
-              Все проекты
-            </button>
-          </div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
       {/* PRICING */}
-      <section id="pricing" className="py-24 md:py-32 bg-white w-full">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">Тарифы, созданные под ваш проект</h2>
-          </motion.div>
+      <section id="pricing" className="py-32 bg-white rounded-[40px] w-full px-6 md:px-12">
+        <div className="max-w-[1600px] mx-auto">
+          <div className="text-center mb-24">
+            <h2 className="text-3xl md:text-5xl lg:text-[56px] font-medium leading-[1.1] uppercase mb-6">ТАРИФЫ И УСЛУГИ</h2>
+            <p className="text-gray-500 text-lg">Прозрачное ценообразование, понятное на первом этапе</p>
+          </div>
 
-          <div className="flex overflow-x-auto lg:grid lg:grid-cols-4 gap-6 pb-8 snap-x snap-mandatory" style={{ scrollbarWidth: 'none' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {PLANS.map((plan, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="min-w-[280px] sm:min-w-[320px] lg:min-w-0 snap-center bg-white border border-gray-100 p-8 xl:p-10 hover:border-gray-200 hover:shadow-2xl transition-all duration-300 shrink-0 flex flex-col h-full">
-                <h4 className="font-bold tracking-widest text-xs text-gray-400 mb-4 uppercase">{plan.name}</h4>
-                <div className="text-3xl font-bold text-[#B8956A] mb-8">{plan.price}</div>
-                <ul className="space-y-5 mb-10 flex-grow">
+              <div key={i} className="border border-[#E5E0D8] rounded-[30px] p-8 hover:border-[#B8956A] hover:shadow-2xl transition-all duration-500 flex flex-col bg-[#F5F3ED]/30 group">
+                <h4 className="text-xl font-medium uppercase mb-6">{plan.name}</h4>
+                <div className="text-3xl font-light text-[#B8956A] mb-10 pb-8 border-b border-[#E5E0D8]">{plan.price}</div>
+                <ul className="space-y-4 mb-12 flex-grow">
                   {plan.features.map((f, j) => (
-                    <li key={j} className="flex gap-4 text-sm font-medium leading-relaxed items-start">
-                      <Check className="w-5 h-5 text-[#B8956A] shrink-0 mt-0.5" />
+                    <li key={j} className="flex gap-4 text-sm font-light text-gray-600">
+                      <div className="w-[6px] h-[6px] rounded-full bg-[#B8956A] mt-2 shrink-0"></div>
                       <span>{f}</span>
                     </li>
                   ))}
                 </ul>
-                <button onClick={() => scrollTo('contact-mid')} className="w-full py-4 border border-gray-200 hover:bg-[#1a1a1a] hover:text-white hover:border-[#1a1a1a] font-semibold text-sm transition-colors duration-300 uppercase mt-auto">
-                  Выбрать тариф
+                <button onClick={() => scrollTo('contact')} className="w-full py-4 border border-[#2B2B2B] rounded-full font-medium tracking-widest text-sm uppercase hover:bg-[#B8956A] hover:border-[#B8956A] hover:text-white transition-all">
+                  ВЫБРАТЬ
                 </button>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-24 md:py-32 bg-[#F8F8F8] w-full">
-        <div className="max-w-4xl mx-auto px-4 md:px-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">Часто задаваемые вопросы</h2>
-          </motion.div>
-
-          <div className="space-y-4">
-            {FAQS.map((faq, i) => {
-              const [isOpen, setIsOpen] = useState(false);
-              return (
-                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="border border-gray-200 bg-white">
-                  <button onClick={() => setIsOpen(!isOpen)} className="w-full flex justify-between items-center p-6 lg:p-8 text-left focus:outline-none bg-white">
-                    <span className="text-lg md:text-xl font-bold pr-8">{faq.q}</span>
-                    <span className="shrink-0 p-2 border border-gray-100 rounded-full bg-[#FAFAFA]">
-                      {isOpen ? <Minus className="text-[#B8956A] w-5 h-5" /> : <Plus className="text-[#B8956A] w-5 h-5" />}
-                    </span>
-                  </button>
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
-                        <div className="p-6 lg:p-8 pt-0 text-gray-500 leading-relaxed border-t border-gray-50 mt-4 mx-6">
-                          {faq.a}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              );
-            })}
-          </div>
+      <section id="faq" className="py-32 px-6 md:px-12 w-full max-w-[1000px] mx-auto">
+        <h2 className="text-3xl md:text-5xl lg:text-[56px] font-medium leading-[1.1] uppercase mb-16 text-center">ЧАСТЫЕ ВОПРОСЫ</h2>
+        <div className="space-y-4">
+          {FAQS.map((faq, i) => {
+            const [isOpen, setIsOpen] = useState(false);
+            return (
+              <div key={i} className="border border-[#E5E0D8] bg-white rounded-[24px] overflow-hidden">
+                <button onClick={() => setIsOpen(!isOpen)} className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:text-[#B8956A] transition-colors">
+                  <span className="text-lg md:text-xl font-medium uppercase pr-8 tracking-wide">{faq.q}</span>
+                  <div className={`w-10 h-10 rounded-full border border-[#E5E0D8] flex items-center justify-center shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 bg-[#B8956A] border-[#B8956A] text-white' : ''}`}>
+                    <Minus size={20} strokeWidth={1.5} className={!isOpen ? 'rotate-90 transition-transform' : 'transition-transform'}/>
+                    {!isOpen && <Minus size={20} strokeWidth={1.5} className="absolute" />}
+                  </div>
+                </button>
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className="overflow-hidden">
+                      <div className="px-6 md:px-8 pb-8 pt-0 text-gray-500 font-light leading-relaxed max-w-3xl">
+                        {faq.a}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
         </div>
       </section>
 
-      {/* FINAL CTA FORM #2 */}
-      <section className="py-24 md:py-32 bg-[#1a1a1a] text-white w-full">
-        <div className="max-w-5xl mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Запишитесь на экскурсию по нашим объектам</h2>
-            <p className="text-gray-400 text-lg mb-12 max-w-md leading-relaxed">
-              Приглашаем лично посетить наши объекты, увидеть процесс реализации собственными глазами и задать все вопросы инженерам и дизайнерам.
+      {/* CTA FORM */}
+      <section id="contact" className="px-4 md:px-12 pb-12 w-full max-w-[1800px] mx-auto">
+        <div className="bg-[#2B2B2B] rounded-[40px] lg:rounded-[60px] p-8 md:p-16 lg:p-24 text-white flex flex-col lg:flex-row gap-16 items-center">
+          <div className="lg:w-1/2">
+            <h2 className="text-4xl md:text-6xl font-medium uppercase leading-[1.1] mb-8">
+              ОБСУДИМ ВАШ ПРОЕКТ?
+            </h2>
+            <p className="text-xl font-light text-gray-400 mb-12 max-w-md">
+              Оставьте заявку, и мы свяжемся с вами в течение 15 минут для предварительной оценки.
             </p>
-            <div className="flex flex-col gap-6 font-medium">
-              <a href="https://t.me/your_tg" className="flex items-center gap-4 hover:text-[#B8956A] hidden sm:flex transition-colors">
-                <div className="w-12 h-12 rounded-full border border-gray-700 flex items-center justify-center shrink-0">
-                  <Send size={20} />
-                </div>
-                Написать в Telegram
+            <div className="flex flex-wrap gap-4 font-light">
+              <a href="tel:+79055164466" className="flex items-center gap-3 border border-white/20 rounded-full px-6 py-3 hover:bg-[#B8956A] hover:border-[#B8956A] transition-colors">
+                <Phone size={18} /> +7 (905) 516-44-66
               </a>
-              <a href="https://wa.me/79055164466" className="flex items-center gap-4 hover:text-[#B8956A] hidden sm:flex transition-colors">
-                <div className="w-12 h-12 rounded-full border border-gray-700 flex items-center justify-center shrink-0">
-                  <Phone size={20} />
-                </div>
-                Написать в WhatsApp
-              </a>
-              <a href="tel:+79055164466" className="flex items-center gap-4 hover:text-[#B8956A] transition-colors">
-                <div className="w-12 h-12 rounded-full border border-gray-700 flex items-center justify-center shrink-0">
-                  <Phone size={20} />
-                </div>
-                Позвонить в бюро
+              <a href="mailto:hello@mechtygroup.ru" className="flex items-center gap-3 border border-white/20 rounded-full px-6 py-3 hover:bg-[#B8956A] hover:border-[#B8956A] transition-colors">
+                <Send size={18} /> hello@mechtygroup.ru
               </a>
             </div>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            {finalFormStatus === 'success' ? (
-              <div className="h-full flex items-center justify-center p-12 bg-white/5 border border-white/10 rounded-xl text-center">
-                <div>
-                  <div className="w-20 h-20 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6 text-white">
-                    <Check size={40} />
-                  </div>
-                  <h3 className="text-3xl font-bold mb-4">Ждем встречи!</h3>
-                  <p className="text-gray-400 text-lg">Заявка успешна. Мы свяжемся с вами для подтверждения времени экскурсии.</p>
-                </div>
-              </div>
+          </div>
+          
+          <div className="lg:w-1/2 w-full bg-white/5 p-8 md:p-12 rounded-[30px] border border-white/10 backdrop-blur-sm">
+            {formStatus === 'success' ? (
+               <div className="text-center py-12">
+                 <div className="w-20 h-20 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6">
+                   <Check size={32} className="text-white" strokeWidth={3} />
+                 </div>
+                 <h3 className="text-2xl font-medium uppercase mb-4">СПАСИБО ЗА ЗАЯВКУ!</h3>
+                 <p className="text-gray-400 font-light">Мы перезвоним вам в ближайшее время.</p>
+               </div>
             ) : (
-              <form onSubmit={handleFinalSubmit} className="flex flex-col gap-4">
+              <form onSubmit={(e) => handleSubmit(e, "Финальная форма")} className="flex flex-col gap-6">
                 <input type="text" name="honeypot" className="hidden" tabIndex={-1} autoComplete="off" />
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input required type="text" name="name" placeholder="Имя" className="bg-[#2a2a2a] border border-transparent focus:border-[#B8956A] px-6 py-4 text-white placeholder-gray-500 outline-none transition-all w-full leading-relaxed" />
-                  <input required type="tel" name="phone" placeholder="Телефон" className="bg-[#2a2a2a] border border-transparent focus:border-[#B8956A] px-6 py-4 text-white placeholder-gray-500 outline-none transition-all w-full leading-relaxed" />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input required type="date" name="preferredDay" className="bg-[#2a2a2a] border border-transparent focus:border-[#B8956A] px-6 py-4 text-white placeholder-gray-500 outline-none transition-all w-full leading-relaxed" />
-                  <select required name="preferredTime" defaultValue="" className="bg-[#2a2a2a] border border-transparent focus:border-[#B8956A] px-6 py-4 text-white placeholder-gray-500 outline-none transition-all w-full leading-relaxed appearance-none">
-                    <option value="" disabled>Удобное время</option>
-                    <option value="10-12">10:00 - 12:00</option>
-                    <option value="12-14">12:00 - 14:00</option>
-                    <option value="14-16">14:00 - 16:00</option>
-                    <option value="16-18">16:00 - 18:00</option>
-                    <option value="18-21">18:00 - 21:00</option>
-                  </select>
-                </div>
+                <input required type="text" name="name" placeholder="ВАШЕ ИМЯ" className="bg-transparent border-b border-white/20 focus:border-[#B8956A] py-4 text-white placeholder-gray-500 font-light outline-none transition-all w-full text-lg uppercase" />
                 
-                <textarea name="comment" placeholder="Дополнительные пожелания к объекту" rows={3} className="bg-[#2a2a2a] border border-transparent focus:border-[#B8956A] px-6 py-4 text-white placeholder-gray-500 outline-none transition-all w-full resize-none leading-relaxed" />
+                <input required type="tel" name="phone" placeholder="ТЕЛЕФОН" className="bg-transparent border-b border-white/20 focus:border-[#B8956A] py-4 text-white placeholder-gray-500 font-light outline-none transition-all w-full text-lg uppercase" />
                 
-                <div className="mt-4 flex items-start gap-3">
-                  <input required type="checkbox" id="policy2" className="mt-1.5 w-4 h-4 accent-[#B8956A]" />
-                  <label htmlFor="policy2" className="text-sm text-gray-500">
-                    Согласен(на) на обработку персональных данных
-                  </label>
+                <input type="text" name="comment" placeholder="КАКАЯ СТОИТ ЗАДАЧА?" className="bg-transparent border-b border-white/20 focus:border-[#B8956A] py-4 text-white placeholder-gray-500 font-light outline-none transition-all w-full text-lg uppercase" />
+                
+                <div className="mt-8 flex items-center gap-6">
+                  <button type="submit" disabled={formStatus === 'submitting'} className="w-20 h-20 bg-[#B8956A] hover:bg-white hover:text-[#2B2B2B] rounded-full flex items-center justify-center shrink-0 transition-colors disabled:opacity-50 text-white">
+                    <ArrowRight size={32} strokeWidth={1.5} />
+                  </button>
+                  <p className="text-xs text-gray-500 font-light uppercase tracking-widest leading-relaxed">
+                    НАЖИМАЯ НА КНОПКУ, ВЫ СОГЛАШАЕТЕСЬ<br/>С ПОЛИТИКОЙ КОНФИДЕНЦИАЛЬНОСТИ
+                  </p>
                 </div>
-                
-                <button type="submit" disabled={finalFormStatus === 'submitting'} className="bg-[#B8956A] hover:bg-[#a6865b] disabled:bg-[#a6865b]/50 text-white px-8 py-5 font-bold uppercase tracking-widest mt-4 transition-colors w-full">
-                  {finalFormStatus === 'submitting' ? 'Отправка...' : 'Записаться на экскурсию'}
-                </button>
               </form>
             )}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-[#1D1D1D] text-white/60 py-16 w-full border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-8">
-          <div className="md:col-span-1">
-            <div className="text-2xl font-black tracking-widest uppercase mb-6 text-white cursor-pointer select-none" onClick={() => window.scrollTo(0, 0)}>
-              МЕЧТЫ<span className="text-[#B8956A]">.</span>
-            </div>
-            <p className="text-sm max-w-xs leading-relaxed">
-              Студия дизайна интерьеров и ремонтов под ключ премиум-класса.
-            </p>
+      <footer className="w-full px-6 md:px-12 py-16 text-center text-sm text-gray-400 font-light uppercase tracking-widest border-t border-[#E5E0D8]/50">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 max-w-[1600px] mx-auto">
+          <p>© {new Date().getFullYear()} МЕЧТЫ. ВСЕ ПРАВА ЗАЩИЩЕНЫ.</p>
+          <div className="flex gap-8">
+            <a href="#" className="hover:text-[#B8956A] transition-colors">TELEGRAM</a>
+            <a href="#" className="hover:text-[#B8956A] transition-colors">VKONTAKTE</a>
           </div>
-          <div className="md:col-span-1">
-            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Навигация</h4>
-            <nav className="flex flex-col gap-3 font-medium text-sm">
-              <button onClick={() => scrollTo('services')} className="hover:text-white transition-colors text-left">Услуги</button>
-              <button onClick={() => scrollTo('about')} className="hover:text-white transition-colors text-left">О нас</button>
-              <button onClick={() => scrollTo('portfolio')} className="hover:text-white transition-colors text-left">Проекты</button>
-              <button onClick={() => scrollTo('pricing')} className="hover:text-white transition-colors text-left">Тарифы</button>
-              <button onClick={() => scrollTo('faq')} className="hover:text-white transition-colors text-left">FAQ</button>
-            </nav>
-          </div>
-          <div className="md:col-span-1">
-            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Контакты</h4>
-            <div className="flex flex-col gap-4 text-sm font-medium">
-              <a href="tel:+79055164466" className="hover:text-white transition-colors">+7 (905) 516-44-66</a>
-              <a href="mailto:hello@mechtygroup.ru" className="hover:text-white transition-colors break-all">hello@mechtygroup.ru</a>
-              <div className="flex items-start gap-2">
-                <MapPin size={16} className="mt-0.5 shrink-0 text-[#B8956A]" />
-                <span>Москва, Сити, башня Империя</span>
-              </div>
-            </div>
-          </div>
-          <div className="md:col-span-1">
-            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Соцсети</h4>
-            <div className="flex gap-4">
-              <a href="https://t.me/your_tg" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#B8956A] hover:border-[#B8956A] hover:text-white transition-all">
-                <Send size={16} />
-              </a>
-              <a href="https://vk.com/your_vk" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#B8956A] hover:border-[#B8956A] hover:text-white transition-all font-bold text-xs uppercase tracking-widest">
-                VK
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 md:px-8 mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium">
-          <p>© {new Date().getFullYear()} Студия «Все начинается с мечты». Все права защищены.</p>
-          <a href="#" className="hover:text-white transition-colors text-center">Политика конфиденциальности</a>
+          <a href="#" className="hover:text-[#B8956A] transition-colors">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a>
         </div>
       </footer>
 
-      {/* MOBILE BOTTOM CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 px-4 py-3 flex justify-between items-center lg:hidden pb-safe">
-        <a href="tel:+79055164466" className="text-[#1a1a1a] font-bold text-lg">
-          +7 905 516 44 66
-        </a>
-        <button onClick={() => scrollTo('contact-mid')} className="bg-[#B8956A] hover:bg-[#a6865b] text-white px-6 py-2.5 font-bold uppercase text-xs tracking-widest transition-colors">
-          Заявка
-        </button>
-      </div>
-
       <style dangerouslySetInnerHTML={{__html: `
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
-        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
-        .font-sans { font-family: 'Inter', system-ui, sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600&display=swap');
+        .font-sans { font-family: 'Montserrat', 'Inter', sans-serif; }
       `}} />
     </div>
   );
 }
+
