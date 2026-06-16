@@ -1,0 +1,6 @@
+{
+  "name": "МЕЧТЫ — Дизайн интерьеров и ремонт",
+  "description": "Студия дизайна интерьеров и ремонтов под ключ премиум-класса «Все начинается с мечты»",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
